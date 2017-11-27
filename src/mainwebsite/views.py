@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, login, get_user_model
+from django.contrib.auth import authenticate, login, get_user_model, logout
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .forms import ContactForm, LoginForm, RegisterForm
@@ -9,7 +9,7 @@ def home_page(request):
         'title': 'Home',
         'content': 'welcome!'
     }
-    return render(request, template_name='base.html', context=context)
+    return render(request, template_name='home_page.html', context=context)
 
 
 def about_page(request):
@@ -17,7 +17,7 @@ def about_page(request):
         'title': 'About',
         'content': 'we are awesome!'
     }
-    return render(request, template_name='base.html', context=context)
+    return render(request, template_name='home_page.html', context=context)
 
 
 def contact_page(request):
@@ -63,3 +63,8 @@ def register_page(request):
         new_user = User.objects.create_user(username,email,password)
         redirect('/login')
     return render(request, template_name='auth/register.html', context=context)
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('/')

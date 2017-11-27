@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="row">
+        <div class="card" align="center" style="width: 30%; height: 30%; padding: 5% ">
+            {% if object.image %}
+                <p><img src="{{ object.image }}" class="img-fluid"></p>
+            {% endif %}
+        </div>
+        <div class="col-sm-3" align="center">
+            <h1>{{ object.title }}</h1>
+            <p>{{ object.timestamp| timesince }} ago</p>
+            <p>{{ object.description }}</p>
+            <p>{{ object.price }} </p>
+        </div>
+    </div>
+{% endblock %}
