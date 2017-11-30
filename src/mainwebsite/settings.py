@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'csvimport.app.CSVImportConf',
     'products',
+    'categories',
+    'search',
 ]
 
 MIDDLEWARE = [

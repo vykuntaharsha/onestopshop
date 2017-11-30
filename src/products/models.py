@@ -1,13 +1,9 @@
-from __future__ import unicode_literals
-
-import uuid
-
+from categories.models import Category
 from django.db import models
 import os
 import random
 import sys
-import csv
-import io
+from django.db.models import Q
 from .utils import unique_slug_generator
 from django.db.models.signals import post_save, pre_save
 from django.urls import reverse
@@ -28,19 +24,25 @@ def upload_image_path(instance, file_name):
 
 
 class ProductQueryset(models.query.QuerySet):
-    def featured(self):
-        return self.filter(featured=True)
+
+    def search(self, query):
+        lookups = (Q(name__icontains=query) |
+                   Q(description__icontains=query) |
+                   Q(price__icontains=query)
+                   )
+        # tshirt, t-shirt, t shirt, red, green, blue,
+        return self.filter(lookups).distinct()
 
 
 class ProductManager(models.Manager):
     def get_queryset(self):
         return ProductQueryset(self.model, self._db)
 
-    def featured(self):
-        return self.get_queryset().filter(featured=True)
+    def get_by_id(self, _id):
+        return self.get_queryset().filter(id=_id)
 
-    def get_by_id(self, id):
-        return self.get_queryset().filter(id=id)
+    def search(self, query):
+        return self.get_queryset().search(query=query)
 
 
 class Product(models.Model):
@@ -57,6 +59,7 @@ class Product(models.Model):
     createdAt = models.DateTimeField(auto_now_add=True, null=True)
     updatedAt = models.DateTimeField(auto_now=True, null=True)
     slug = models.SlugField(null=True, blank=True, unique=True)
+    categories = models.ManyToManyField(to=Category)
 
     objects = ProductManager()
 
@@ -65,6 +68,9 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse("products:detail", kwargs={'slug': self.slug})
+
+    def get_categories(self):
+        return self.categories.all()
 
 
 def product_pre_save_receiver(sender, instance, *args, **kwargs):

@@ -30,6 +30,7 @@ urlpatterns = [
     url(r'^logout/$', logout_view, name='logout'),
     url(r'^register/$', register_page, name='register'),
     url(r'^products/', include("products.urls", namespace='products')),
+    url(r'^search/', include("search.urls", namespace='search')),
 ]
 if settings.DEBUG:
     urlpatterns = urlpatterns + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
