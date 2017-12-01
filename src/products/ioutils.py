@@ -26,8 +26,8 @@ def make_product(file_path):
 def map_products_categories(file_path):
     file = open(file_path,'r')
     for line in file:
-        map_ = line.split(',')
+        map_ = line.rstrip().split(',')
         product = Product.objects.get_by_id(_id=map_[0]).first()
-        category = Category.objects.get_by_id(_id=map_[1].rstrip()).first()
+        category = Category.objects.get_by_id(_id=map_[1]).first()
         product.categories.add(category)
     print('done')

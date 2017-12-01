@@ -23,6 +23,8 @@ class CategoryManager(models.Manager):
 class Category(models.Model):
     categoryId = models.CharField(max_length=120, unique=True)
     name = models.CharField(max_length=255)
+    subcategories = models.ManyToManyField(to='self', related_name='subcategories')
+    category_path = models.ManyToManyField(to='self', related_name='category_path')
 
     objects = CategoryManager()
 

@@ -27,9 +27,9 @@ class ProductQueryset(models.query.QuerySet):
 
     def search(self, query):
         lookups = (Q(name__icontains=query) |
+                   Q(categories__name__icontains=query)|
                    Q(description__icontains=query) |
-                   Q(price__icontains=query)
-                   )
+                   Q(price__icontains=query))
         # tshirt, t-shirt, t shirt, red, green, blue,
         return self.filter(lookups).distinct()
 

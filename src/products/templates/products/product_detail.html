@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
     <div class="row bg-light mt-5">
-        <div class="col-4 img-thumbnail" align="center" style="padding: 5% ">
+        <div class="col-4 img-thumbnail" align="center" style="padding: 5%; border-radius: 0 ">
             <img src="{{ object.image }}" class="img-responsive" style="max-width: 100%">
         </div>
         <div class="col-8" align="center">
@@ -14,7 +14,7 @@
             </div>
             <hr/>
             <div class="row" align="left">
-                Categories:
+                    <label class="col-12" align="left">Categories: </label>
                 <ul> {% for category in object.get_categories%}
                     <li>{{category}}</li>
                     {% endfor %}
