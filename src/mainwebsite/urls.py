@@ -19,7 +19,6 @@ from django.conf.urls.static import static
 from django.conf.urls import url, include
 from django.contrib import admin
 
-from cart.views import cart_home
 from .views import home_page, about_page, contact_page, login_page, register_page, logout_view
 
 urlpatterns = [
@@ -32,7 +31,7 @@ urlpatterns = [
     url(r'^register/$', register_page, name='register'),
     url(r'^products/', include("products.urls", namespace='products')),
     url(r'^search/', include("search.urls", namespace='search')),
-    url(r'^cart/$', cart_home, name='cart'),
+    url(r'^cart/', include("cart.urls", namespace='cart')),
 ]
 if settings.DEBUG:
     urlpatterns = urlpatterns + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

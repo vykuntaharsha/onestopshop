@@ -2,7 +2,8 @@
     <div class="col-xs-12" style="padding: 5%">
         <div class="image-shell" align="center">
             <a href="{{ instance.get_absolute_url }}">
-            <img class="img-responsive" style="max-width: 50%" src= "{{ instance.image }}" alt="{{ instance.name}} logo">
+            <img class="img-responsive" style="max-width: 50%" src= "{{ instance.image }}"
+                 onerror="this.src='http://www.brandnmc.com/jbframework/uploads/2017/07/image_not_available.png'">
             </a>
         </div>
     </div>

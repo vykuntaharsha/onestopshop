@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate, login, get_user_model, logout
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .forms import ContactForm, LoginForm, RegisterForm
+from cart.models import Cart
 
 
 def home_page(request):
@@ -9,6 +10,8 @@ def home_page(request):
         'title': 'Home',
         'content': 'welcome!'
     }
+    if request.user.is_authenticated:
+        request.session['cart_products'] = Cart.objects.filter(user=request.user).first().products.count()
     return render(request, template_name='home_page.html', context=context)
 
 

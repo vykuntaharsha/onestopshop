@@ -1,4 +1,59 @@
 {% extends 'base.html' %}
 {% block content %}
-cart
+<div class="form-horizontal">
+<div class="form-inline mt-5">
+    <div class="col"><h1>Your Cart</h1></div>
+    <div class="col-3 ml-auto"><a class="btn btn-secondary btn-block" href="{% url 'products:list'%}">continue shopping </a></div>
+</div>
+    </div>
+<hr>
+{% if cart.products.exists %}
+ <div class="row">
+<table class="table table-striped">
+  <thead>
+    <tr>
+        <th scope="col">Product</th>
+        <th scope="col">Price</th>
+        <td></td>
+    </tr>
+  </thead>
+  <tbody>
+
+  {% for product in cart.products.all %}
+    <tr>
+        <td><img src="{{product.image}}" style="width: 40px; height: 40px"
+               onerror="this.src='http://www.brandnmc.com/jbframework/uploads/2017/07/image_not_available.png'">
+            <a href="{{product.get_absolute_url}}">{{product.name}}</a></td>
+        <td>${{product.price}}</td>
+        <td>{% include 'products/snippets/add_to_cart.html' with product=product cart=cart in_cart=True %}</td>
+    </tr>
+  {% endfor %}
+    <tr>
+        <td class="text-right"><b>Subtotal</b></td>
+        <td>{{cart.subtotal}}</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td class="text-right"><b>Shipping</b></td>
+        <td>{{cart.shipping}}</td>
+        <td></td>
+    </tr>
+  </tbody>
+</table>
+ </div>
+<div class="row">
+    <div class="col-3  ml-md-auto text-right"><a href="#" class="btn btn-warning btn-block"> checkout</a></div>
+</div>
+{% else %}
+<div class="row">
+    <div class="col-12 bg-light p-3">
+        <h4>Your cart is empty</h4>
+        {% if request.user.is_authenticated %}
+        {% else %}
+        <p>Just browsing? You can <a href="{% url 'register' %}">create an account</a>
+            to get special offers and start earning reward points whenever you make a purchase.</p>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
 {% endblock %}
