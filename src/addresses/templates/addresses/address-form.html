@@ -1,0 +1,17 @@
+<div class="row bg-light" >
+    <form class="col-12 col-md-8 mx-auto pt-3" method="post"
+          action=" {% if action_url %} {{action_url}} {% else %} {% url 'account:login' %}{% endif %}">
+        {% csrf_token %}
+        {% if next_url %}
+        <input type="hidden" name="next" value="{{ next_url}}">
+        {% endif %}
+        {% if address_type %}
+        <input type="hidden" name="address_type" value="{{ address_type }}">
+        {% endif %}
+         {{ form.as_p }}
+        <div class="col-8 ml-auto">
+            <button type="submit" class="btn btn-primary btn-block"> next </button>
+        </div>
+    </form>
+
+</div>

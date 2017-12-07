@@ -23,6 +23,10 @@ def login_page(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+            try:
+                del request.session['guest_email_id']
+            except:
+                pass
             if is_safe_url(redirect_path, request.get_host()):
                 return redirect(to=redirect_path)
             else:
@@ -54,9 +58,6 @@ def logout_view(request):
 
 def guest_register_view(request):
     guest_form = GuestForm(request.POST or None)
-    context = {
-        'form': guest_form
-    }
     next_ = request.GET.get('next')
     next_post = request.POST.get('next')
     redirect_path = next_ or next_post or None

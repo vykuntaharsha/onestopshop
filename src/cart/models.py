@@ -16,7 +16,7 @@ class CartManager(models.Manager):
             new_obj = False
             cart_obj = qs.first()
             if request.user.is_authenticated() and cart_obj.user is None:
-                user_cart = self.model.objects.filter(user=request.user).first()
+                user_cart = self.model.objects.filter(user=request.user, active=True).first()
                 if user_cart is not None:
                     cart_obj.products.add(*user_cart.products.all())
                     cart_obj.user = request.user
@@ -35,7 +35,7 @@ class CartManager(models.Manager):
         user_obj = None
         if user is not None:
             if user.is_authenticated():
-                cart_obj = self.model.objects.filter(user=user).first()
+                cart_obj = self.model.objects.filter(user=user, active=True).first()
                 if cart_obj is not None:
                     return cart_obj
                 user_obj = user
@@ -46,6 +46,7 @@ class Cart(models.Model):
 
     user = models.ForeignKey(to=User, null=True, blank=True)
     products = models.ManyToManyField(to=Product, blank=True)
+    active = models.BooleanField(default=True)
     subtotal = models.DecimalField(default=0, max_digits=100, decimal_places=2)
     shipping = models.DecimalField(default=0, max_digits=100, decimal_places=2)
     createdAt = models.DateTimeField(auto_now_add=True)

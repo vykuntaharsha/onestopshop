@@ -5,7 +5,8 @@
     <div class="row text-center">
         <div class="col-12 col-md-5 bg-light p-3" align="center">
             <h4 class="text-primary">Login</h4>
-            {% include 'accounts/snippets/login-form.html' with form=login_form next_url=request.build_absolute_uri %}
+            {% url 'cart:home' as cart_home %}
+            {% include 'accounts/snippets/login-form.html' with form=login_form next_url=cart_home %}
         </div>
         <div class="col-12 col-md-5 offset-md-2  bg-light p-3" align="center">
             <h4 class="text-warning">Continue as guest</h4>
@@ -14,7 +15,53 @@
         </div>
     </div>
 {% else %}
-    <h1> Checkout </h1>
-    <p>Total: {{ order.total }}</p>
+    {% if not order.shipping_address %}
+    <div class="row">
+        <div class="col-12">
+            <h1> Shipping Address </h1>
+            <hr/>
+        </div>
+        <div class="col-5 text-left" align="center">
+        {% url 'cart:checkout_address_create' as checkout_address_create %}
+        {% include 'addresses/address-form.html' with form=address_form next_url=request.build_absolute_uri action_url=checkout_address_create address_type='shipping' %}
+        </div>
+        <div class='col-6 ml-auto'>
+            {% url 'cart:checkout_address_reuse' as checkout_address_reuse %}
+            {% include 'addresses/previous-addresses.html' with address_qs=address_qs next_url=request.build_absolute_uri address_type='shipping' action_url=checkout_address_reuse %}
+        </div>
+    </div>
+    {% elif not order.billing_address %}
+    <div class="row">
+        <div class="col-12">
+            <h1> Billing Address </h1>
+            <hr/>
+        </div>
+        <div class="col-5 text-left">
+        {% url 'cart:checkout_address_create' as checkout_address_create %}
+        {% include 'addresses/address-form.html' with form=address_form next_url=request.build_absolute_uri action_url=checkout_address_create address_type='billing' %}
+        </div>
+        <div class='col-6 ml-auto'>
+            {% url 'cart:checkout_address_reuse' as checkout_address_reuse %}
+            {% include 'addresses/previous-addresses.html' with address_qs=address_qs next_url=request.build_absolute_uri address_type='billing' action_url=checkout_address_reuse %}
+        </div>
+    </div>
+    {% else %}
+        <h1> Payment </h1>
+        <hr/>
+        <div class="row">
+            <div class="col-12 col-md-8">
+                <p>OrderId: {{order.order_id}}</p>
+                <p>Cart Items: {% for product in order.cart.products.all %}{{ product }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+                <p>Subtotal: ${{order.cart.subtotal}}</p>
+                <p>Shipping: ${{order.cart.shipping}}</p>
+                <p>Total: ${{ order.total }}</p>
+                <p>Shipping Address: {{order.shipping_address.get_address}}</p>
+                <p>Billing Address: {{order.billing_address.get_address}}</p>
+                <form class="form" method="post" action="">{% csrf_token%}
+                    <button type="submit" class="btn btn-primary"> pay </button>
+                </form>
+            </div>
+        </div>
+    {% endif %}
 {% endif %}
 {% endblock %}
