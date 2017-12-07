@@ -42,7 +42,7 @@
 </table>
  </div>
 <div class="row">
-    <div class="col-3  ml-md-auto text-right"><a href="#" class="btn btn-warning btn-block"> checkout</a></div>
+    <div class="col-3  ml-md-auto text-right"><a href="{% url 'cart:checkout' %}" class="btn btn-warning btn-block"> checkout</a></div>
 </div>
 {% else %}
 <div class="row">
@@ -50,7 +50,7 @@
         <h4>Your cart is empty</h4>
         {% if request.user.is_authenticated %}
         {% else %}
-        <p>Just browsing? You can <a href="{% url 'register' %}">create an account</a>
+        <p>Just browsing? You can <a href="{% url 'account:register' %}">create an account</a>
             to get special offers and start earning reward points whenever you make a purchase.</p>
         {% endif %}
     </div>

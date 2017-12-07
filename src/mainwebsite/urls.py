@@ -19,16 +19,14 @@ from django.conf.urls.static import static
 from django.conf.urls import url, include
 from django.contrib import admin
 
-from .views import home_page, about_page, contact_page, login_page, register_page, logout_view
+from .views import home_page, about_page, contact_page
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', home_page, name='home'),
     url(r'^about/$', about_page, name='about'),
     url(r'^contact/$', contact_page, name='contact'),
-    url(r'^login/$', login_page, name='login'),
-    url(r'^logout/$', logout_view, name='logout'),
-    url(r'^register/$', register_page, name='register'),
+    url(r'^account/', include('accounts.urls', namespace='account')),
     url(r'^products/', include("products.urls", namespace='products')),
     url(r'^search/', include("search.urls", namespace='search')),
     url(r'^cart/', include("cart.urls", namespace='cart')),
