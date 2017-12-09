@@ -14,8 +14,9 @@
         {% if instance.shipping == 0 %}
         <p class="text-info"> free shipping</p>
         {% endif %}
-        <div class="text-primary">
-            <a href="{{ instance.get_absolute_url }}"><strong>View ></strong></a>
+        <div class="col-12">
+            <a class="btn btn-outline-primary btn-block my-2" href="{{ instance.get_absolute_url }}"><strong>View </strong></a>
+            {% include 'products/snippets/add_to_cart.html' with product=instance cart=cart %}
         </div>
     </div>
 </div>

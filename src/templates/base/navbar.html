@@ -46,8 +46,8 @@
     <div class="col-1 shopping-cart">
         <a class=" {% if request.path == cart_url %}active text-light {% else %} text-muted {% endif %}"
            href="{{ cart_url }}"><i class="fa fa-shopping-cart fa-2x" aria-hidden="true"></i>
-            {% if request.session.cart_products > 0 %}
-            <span class="badge badge-primary"
+            {% if request.session.cart_products >= 0 %}
+            <span class="badge badge-primary cart-count"
                   style=" top: -18px; left: -15px; position: relative; height: 20px; width: 20px;
                   line-height: 15px; border-radius: 50%; font-size: 0.7em;">
                 {{request.session.cart_products}}</span>

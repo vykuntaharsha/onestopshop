@@ -1,6 +1,7 @@
 import os
 import random
 import sys
+from urllib import parse
 
 from django.db import models
 from django.db.models import Q
@@ -69,6 +70,10 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def image_url(self):
+        return str(self.image)
 
     def get_absolute_url(self):
         return reverse("products:detail", kwargs={'slug': self.slug})
