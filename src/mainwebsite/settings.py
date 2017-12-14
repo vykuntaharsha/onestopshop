@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -46,7 +47,17 @@ INSTALLED_APPS = [
     'accounts',
     'billing',
     'addresses',
+    'analytics',
 ]
+
+AUTH_USER_MODEL = 'accounts.User'
+
+FORCE_SESSION_TO_ONE = False
+FORCE_INACTIVE_USER_END_SESSION = False
+
+STRIPE_PUB_KEY = 'pk_test_vkJRqUc0sr2Xsg0v12iMKtup'
+STRIPE_API_KEY = 'sk_test_kEepAt1GDvVRsnwHZkKQNs1a'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -82,10 +93,23 @@ WSGI_APPLICATION = 'mainwebsite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
+
+def get_env_variable(var_name):
+    try:
+        return os.environ[var_name]
+    except KeyError:
+        error_msg = "Set the %s environment variable" % var_name
+        raise ImproperlyConfigured(error_msg)
+
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'onestopshop_db',
+        'USER': 'admin',
+        'PASSWORD': 'bobby',
+        'HOST': '',
+        'PORT': '',
     }
 }
 
@@ -136,3 +160,4 @@ STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_cdn", "static_root
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_cdn", "media_root")
+

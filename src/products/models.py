@@ -51,19 +51,19 @@ class ProductManager(models.Manager):
 
 
 class Product(models.Model):
-
+    product_id = models.CharField(unique=True, max_length=225)
     name = models.CharField(max_length=255, null=True)
     type = models.CharField(max_length=255, null=True)
     price = models.DecimalField(decimal_places=2, max_digits=20, null=True)
     upc = models.CharField(max_length=255, null=True)
     shipping = models.DecimalField(decimal_places=2, max_digits=20, null=True)
-    description = models.CharField(max_length=255, null=True)
+    description = models.TextField(null=True)
     manufacturer = models.CharField(max_length=255, null=True)
     model = models.CharField(max_length=255, null=True)
     image = models.ImageField(max_length=255, upload_to=upload_image_path, null=True, blank=True)
     createdAt = models.DateTimeField(auto_now_add=True, null=True)
     updatedAt = models.DateTimeField(auto_now=True, null=True)
-    slug = models.SlugField(null=True, blank=True, unique=True)
+    slug = models.SlugField(max_length=500, null=True, blank=True, unique=True)
     categories = models.ManyToManyField(to=Category)
 
     objects = ProductManager()

@@ -20,6 +20,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 
 from .views import home_page, about_page, contact_page
+from billing.views import payment_method_view, payment_method_create_view
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -30,6 +31,8 @@ urlpatterns = [
     url(r'^products/', include("products.urls", namespace='products')),
     url(r'^search/', include("search.urls", namespace='search')),
     url(r'^cart/', include("cart.urls", namespace='cart')),
+    url(r'^billing/payment-method/$', payment_method_view, name='billing-payment-method'),
+    url(r'^billing/payment-method/create/$', payment_method_create_view, name='billing-payment-method-endpoint'),
 ]
 if settings.DEBUG:
     urlpatterns = urlpatterns + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

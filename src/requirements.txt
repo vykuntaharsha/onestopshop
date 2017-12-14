@@ -1,0 +1,7 @@
+chardet==3.0.4
+Django==1.11.4
+django-csvimport==2.11
+olefile==0.44
+Pillow==4.3.0
+psycopg2==2.7.3.2
+pytz==2017.3

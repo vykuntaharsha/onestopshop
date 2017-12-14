@@ -46,22 +46,34 @@
         </div>
     </div>
     {% else %}
-        <h1> Payment </h1>
-        <hr/>
-        <div class="row">
-            <div class="col-12 col-md-8">
-                <p>OrderId: {{order.order_id}}</p>
-                <p>Cart Items: {% for product in order.cart.products.all %}{{ product }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
-                <p>Subtotal: ${{order.cart.subtotal}}</p>
-                <p>Shipping: ${{order.cart.shipping}}</p>
-                <p>Total: ${{ order.total }}</p>
-                <p>Shipping Address: {{order.shipping_address.get_address}}</p>
-                <p>Billing Address: {{order.billing_address.get_address}}</p>
-                <form class="form" method="post" action="">{% csrf_token%}
-                    <button type="submit" class="btn btn-primary"> pay </button>
-                </form>
+        {% if not has_card %}
+
+            <div class="col-10 col-md-6 mx-auto">
+                <h1>Add payment method</h1><hr/>
+                <div class='stripe-payment-form' data-token='{{ publish_key }}'
+                     data-next-url='{{ request.build_absolute_uri }}' data-btn-title='Add payment method'>
+                </div>
             </div>
-        </div>
+        {% else %}
+            <h1> Payment </h1>
+            <hr/>
+            <div class="row">
+                <div class="col-12 col-md-8">
+                    <p>OrderId: {{order.order_id}}</p>
+                    <p>Cart Items: {% for product in order.cart.products.all %}{{ product }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+                    <p>Subtotal: ${{order.cart.subtotal}}</p>
+                    <p>Shipping: ${{order.cart.shipping}}</p>
+                    <p>Total: ${{ order.total }}</p>
+                    <p>Shipping Address: {{order.shipping_address.get_address}}</p>
+                    <p>Billing Address: {{order.billing_address.get_address}}</p>
+                    <p>Payment Method: {{billing_profile.default_card }}(
+                        <a href="{{ billing_profile.get_payment_method_url }}?next={{ request.build_absolute_uri }}">change</a>)</p>
+                    <form class="form" method="post" action="">{% csrf_token%}
+                        <button type="submit" class="btn btn-primary"> pay </button>
+                    </form>
+                </div>
+            </div>
+        {% endif %}
     {% endif %}
 {% endif %}
 {% endblock %}

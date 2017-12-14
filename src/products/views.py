@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView
 from .models import Product
 from cart.models import Cart
+from analytics.mixins import ObjectViewedMixin
 import random
 # Create your views here.
 
@@ -23,7 +24,7 @@ class ProductListView(ListView):
         return context
 
 
-class ProductDetailView(DetailView):
+class ProductDetailView(ObjectViewedMixin, DetailView):
     template_name = 'products/product_detail.html'
     queryset = Product.objects.all()
 

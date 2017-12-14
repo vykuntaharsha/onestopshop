@@ -1,18 +1,19 @@
 {% extends 'base.html' %}
 <title></title>
 {% block content %}
-    <div class="text-center">
-        <h1>{{ title }}</h1>
-    </div>
-        <div class="row">
-            <div class="col">
-                <p>{{ content }}</p>
-            <div class="col-sm-6 col-12">
-                <form method="post">{% csrf_token %}
-                    {{ form }}
-                    <button type="submit" class="button"> submit </button>
-                </form>
-            </div>
-            </div>
+    <div class="bg-light text-center">
+        <h1 >{{ title }}</h1>
+
+    <div class="row" align="center">
+        <div class="col-12 text-primary">
+            <p class="bg-light">{{ content }} <i class="fa fa-smile-o fa-2x" aria-hidden="true"></i></p></div>
+        <div class="col-md-8 col-12 mx-auto">
+            <form class="contact-form my-3" method="post" action="{% url 'contact' %}">{% csrf_token %}
+                {{ form }}
+                <button type="submit" class="btn btn-primary mt-3"> submit </button>
+            </form>
         </div>
+    </div>
+    </div>
+
 {% endblock %}

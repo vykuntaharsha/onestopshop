@@ -4,19 +4,14 @@
  <div class='row  mb-3'>
     {% if request.GET.q %}
     <div class='col-12' >
+        {% if object_list.exists %}
         Results for <b>{{ request.GET.q }}</b>
+        {% else %}
+        No results found <i class="fa fa-frown-o fa-2x" aria-hidden="true"></i>
+        {% endif %}
         <hr/>
     </div>
-    {% else %}
-
-    <div class='col-12 col-md-6 mx-auto py-5'>
-       {% include 'search/snippets/search-form.html' %}
-
-    </div>
-    <div class='col-12'>
-        <hr>
-    </div>
-    {% endif %}
+     {% endif %}
 </div>
 <div class="row">
 {% for obj in object_list %}
