@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="col-12 col-md-8 mx-auto bg-light text-center py-3" >
+        {% if title %}
+        <h1 class="my-3"> {{title}} </h1>
+        {% endif %}
+        <form class="col-12 col-md-8 mx-auto " method="post"
+              action=" {% if action_url %} {{action_url}}{% endif %}">
+            {% csrf_token %}
+            {% if next_url %}
+            <input type="hidden" name="next" value="{{ next_url}}">
+            {% endif %}
+             {{ form.as_p }}
+            <div class="col-sm-8 col-lg-6 mx-auto">
+                <button type="submit" class="btn btn-primary btn-block"> Save </button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

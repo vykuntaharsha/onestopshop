@@ -14,7 +14,7 @@ import os
 from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
 # Quick-start development settings - unsuitable for production
@@ -48,12 +48,17 @@ INSTALLED_APPS = [
     'billing',
     'addresses',
     'analytics',
+    'marketing',
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
 
 FORCE_SESSION_TO_ONE = False
 FORCE_INACTIVE_USER_END_SESSION = False
+
+MAILCHIMP_API_KEY = "key_not_uploaded"
+MAILCHIMP_DATA_CENTER = "us17"
+MAILCHIMP_EMAIL_LIST_ID = "255a84d7e0"
 
 STRIPE_PUB_KEY = 'pk_test_vkJRqUc0sr2Xsg0v12iMKtup'
 STRIPE_API_KEY = 'sk_test_kEepAt1GDvVRsnwHZkKQNs1a'
