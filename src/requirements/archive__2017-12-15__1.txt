@@ -3,11 +3,11 @@ cfe==0.0.15
 chardet==3.0.4
 dj-database-url==0.4.2
 django-csvimport==2.11
-django==2.0
+Django==2.0
 gunicorn==19.7.1
 idna==2.6
 olefile==0.44
-pillow==4.3.0
+Pillow==4.3.0
 pip==9.0.1
 psycopg2==2.7.3.2
 pytz==2017.3
