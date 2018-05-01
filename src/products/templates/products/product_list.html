@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="row">
+    <div class="row" style="height: 25rem">
         {% for obj in object_list %}
             <div class="col-4 card" style="border-radius: 0;">
                     {% include 'products/snippets/card.html' with instance=obj %}
             </div>
-        {% cycle '' '' '</div><div class="row">'%}
+        {% cycle '' '' '</div><div class="row" style="height: 25rem">'%}
         {% endfor %}
     </div>
 {% endblock %}

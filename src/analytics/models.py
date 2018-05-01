@@ -15,6 +15,24 @@ FORCE_SESSION_TO_ONE = getattr(settings, 'FORCE_SESSION_TO_ONE', False)
 FORCE_INACTIVE_USER_END_SESSION = getattr(settings, 'FORCE_INACTIVE_USER_END_SESSION', False)
 
 
+class ObjectViewedQuerySet(models.query.QuerySet):
+    def by_model(self, model_class, model_queryset=False):
+        c_type = ContentType.objects.get_for_model(model_class)
+        qs = self.filter(content_type=c_type)
+        if model_queryset:
+            viewed_ids = [x.object_id for x in qs]
+            return model_class.objects.filter(pk__in=viewed_ids)
+        return qs
+
+
+class ObjectViewedManager(models.Manager):
+    def get_queryset(self):
+        return ObjectViewedQuerySet(self.model, using=self._db)
+
+    def by_model(self, model_class, model_queryset=False):
+        return self.get_queryset().by_model(model_class, model_queryset=model_queryset)
+
+
 class ObjectViewed(models.Model):
     user = models.ForeignKey(to=User, blank=True, null=True)
     ip_address = models.GenericIPAddressField(blank=True,null=True)
@@ -22,6 +40,8 @@ class ObjectViewed(models.Model):
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
     timestamp = models.DateTimeField(auto_now_add=True)
+
+    objects = ObjectViewedManager()
 
     def __str__(self):
         return f"{self.content_object} viewed on {self.timestamp}"
@@ -34,11 +54,11 @@ class ObjectViewed(models.Model):
 
 def object_viewed_receiver(sender, instance, request, *args, **kwargs):
     c_type = ContentType.objects.get_for_model(sender)
-    new_view_obj = ObjectViewed.objects.create(user=request.user,
-                                               ip_address=get_client_ip(request),
-                                               content_type=c_type,
-                                               object_id=instance.id)
-
+    if request.user.is_authenticated():
+        new_view_obj = ObjectViewed.objects.create(user=request.user,
+                                                   ip_address=get_client_ip(request),
+                                                   content_type=c_type,
+                                                   object_id=instance.id)
 
 
 object_viewed_signal.connect(object_viewed_receiver)

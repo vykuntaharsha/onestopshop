@@ -12,12 +12,15 @@
         {% include 'base/navbar.html' with brand_name='one stop shop!' %}
         <div class="container">
             {% if messages %}
-                <div class=" alert alert-success messages">
+                <div class="row">
                     {% for message in messages %}
-                    <span {% if message.tags %} class="{{ message.tags }}"{% endif %}>
-                        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+                        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                            <span class="alert alert-danger {% if message.tags %} {{ message.tags }} {% endif %}"> Important:
+                        {% else %}
+                            <span class="alert alert-danger {% if message.tags %} {{ message.tags }} {% endif %}">
+                        {% endif %}
                         {{ message }}<br/>
-                    </span>
+                            </span></span>
                     {% endfor %}
                 </div>
             {% endif %}
@@ -28,5 +31,6 @@
         {% include 'base/js.html' %}
         {% block javascript %}
         {% endblock %}
+        <div class="footer" style="height: 500px;"></div>
     </body>
 </html>

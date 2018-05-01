@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class='row'>
+        <h1>Product View History</h1>
+        <hr/>
+    </div>
+   <div class="row">
+        {% for obj in object_list %}
+            <div class="col-4 card" style="border-radius: 0;">
+                    {% include 'products/snippets/card.html' with instance=obj.content_object %}
+            </div>
+        {% cycle '' '' '</div><div class="row">'%}
+        {% endfor %}
+    </div>
+
+{% endblock %}

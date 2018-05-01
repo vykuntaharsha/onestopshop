@@ -7,7 +7,7 @@ import stripe
 # Create your models here.
 
 User = settings.AUTH_USER_MODEL
-stripe.api_key = 'sk_test_kEepAt1GDvVRsnwHZkKQNs1a'
+stripe.api_key = ''
 
 
 class BillingProfileManger(models.Manager):

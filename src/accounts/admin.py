@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth import get_user_model
-from .models import GuestEmail
+from .models import GuestEmail, EmailActivation
 from .forms import UserAdminChangeForm, UserAdminCreationForm
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
@@ -16,11 +16,11 @@ class UserAdmin(BaseUserAdmin):
     add_form = UserAdminCreationForm
 
     list_display = ('email', 'admin', 'full_name')
-    list_filter = ('admin', 'staff', 'active')
+    list_filter = ('admin', 'staff', 'is_active')
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         ('Personal info', {'fields': ['full_name']}),
-        ('Permissions', {'fields': ('admin', 'staff', 'active')}),
+        ('Permissions', {'fields': ('admin', 'staff', 'is_active')}),
     )
 
     add_fieldsets = (
@@ -34,6 +34,13 @@ class UserAdmin(BaseUserAdmin):
     filter_horizontal = ()
 
 
+class EmailActivationAdmin(admin.ModelAdmin):
+    search_fields = ['email']
+
+    class Meta:
+        model = EmailActivation
+
+
 class GuestEmailAdmin(admin.ModelAdmin):
     search_fields = ['email']
 
@@ -42,5 +49,6 @@ class GuestEmailAdmin(admin.ModelAdmin):
 
 
 admin.site.register(User, UserAdmin)
+admin.site.register(EmailActivation, EmailActivationAdmin)
 admin.site.register(GuestEmail, GuestEmailAdmin)
 admin.site.unregister(Group)

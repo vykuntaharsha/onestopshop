@@ -1,13 +1,48 @@
 from django.shortcuts import render, redirect
 from django.utils.http import is_safe_url
-from .forms import AddressForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .forms import AddressForm, AddressCheckoutForm
 from billing.models import BillingProfile
 from .models import Address
-# Create your views here.
+from django.views.generic import ListView, UpdateView, CreateView
+
+
+class AddressListView(LoginRequiredMixin, ListView):
+    template_name = 'addresses/list.html'
+
+    def get_queryset(self):
+        request = self.request
+        billing_profile, billing_profile_created = BillingProfile.objects.new_or_get(request)
+        return Address.objects.filter(billing_profile=billing_profile)
+
+
+class AddressUpdateView(LoginRequiredMixin, UpdateView ):
+    template_name = 'addresses/update.html'
+    form_class = AddressForm
+    success_url = '/addresses'
+
+    def get_queryset(self):
+        request = self.request
+        billing_profile, billing_profile_created = BillingProfile.objects.new_or_get(request)
+        return Address.objects.filter(billing_profile=billing_profile)
+
+
+class AddressCreateView(LoginRequiredMixin, CreateView):
+    template_name = 'addresses/update.html'
+    form_class = AddressForm
+    success_url = '/addresses'
+
+    def form_valid(self, form):
+        request = self.request
+        billing_profile, billing_profile_created = BillingProfile.objects.new_or_get(request)
+        instance = form.save(commit=False)
+        instance.billing_profile = billing_profile
+        instance.save()
+        return super(AddressCreateView, self).form_valid(form)
 
 
 def checkout_address_create_view(request):
-    address_form = AddressForm(request.POST or None)
+    address_form = AddressCheckoutForm(request.POST or None)
     context = {
         "form": address_form
     }

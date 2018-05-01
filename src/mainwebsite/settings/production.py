@@ -22,12 +22,25 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '&_1z-x8!a4buszfs42t-x$27))&24%@7_@5dwye3m-+1wu=%1+'
+SECRET_KEY = os.environ.get('SECRET_KEY')
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'bobbyvykunta@gmail.com')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'OneStopShop <bobbyvykunta@gmail.com>'
+
+MANAGERS = [
+    ('Harsha Vykunta', 'bobbyvykunta@gmail.com')
+]
+
+ADMINS = MANAGERS
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['.herokuapp.com']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -39,7 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'csvimport.app.CSVImportConf',
+    'storages',
     'products',
     'categories',
     'search',
@@ -53,16 +66,20 @@ INSTALLED_APPS = [
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
+LOGIN_URL = 'account/login/'
+LOGIN_URL_REDIRECT = '/'
+LOGOUT_URL = 'account/logout/'
+BASE_URL = 'onestop-shop.herokuapp.com'
 
 FORCE_SESSION_TO_ONE = False
 FORCE_INACTIVE_USER_END_SESSION = False
 
-MAILCHIMP_API_KEY = "3cecd945d3c66544bd710cb95fee0132-us17"
+MAILCHIMP_API_KEY = os.environ.get("MAILCHIMP_API_KEY")
 MAILCHIMP_DATA_CENTER = "us17"
-MAILCHIMP_EMAIL_LIST_ID = "255a84d7e0"
+MAILCHIMP_EMAIL_LIST_ID = os.environ.get("MAILCHIMP_EMAIL_LIST_ID")
 
-STRIPE_PUB_KEY = 'pk_test_vkJRqUc0sr2Xsg0v12iMKtup'
-STRIPE_API_KEY = 'sk_test_kEepAt1GDvVRsnwHZkKQNs1a'
+STRIPE_PUB_KEY = os.environ.get('STRIPE_PUB_KEY', 'pk_test_vkJRqUc0sr2Xsg0v12iMKtup')
+STRIPE_API_KEY = os.environ.get('STRIPE_API_KEY', 'sk_test_kEepAt1GDvVRsnwHZkKQNs1a')
 
 
 MIDDLEWARE = [
@@ -167,10 +184,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static_my_project"),
 ]
 
-STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_cdn", "static_root")
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_cdn", "media_root")
+from mainwebsite.aws.conf import *
 
 CORS_REPLACE_HTTPS_REFERER = True
 HOST_SCHEME = "https://"

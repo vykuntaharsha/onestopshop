@@ -37,3 +37,14 @@ def unique_order_id_generator(instance):
     if qs_exists:
         return unique_order_id_generator(instance)
     return order_id
+
+
+def unique_key_generator(instance):
+    size = random.randint(30, 50)
+    key = random_string_generator(size=size)
+
+    class_ = instance.__class__
+    qs_exists = class_.objects.filter(key=key).exists()
+    if qs_exists:
+        return unique_key_generator(instance)
+    return key

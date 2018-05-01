@@ -4,7 +4,7 @@
     <div class="col-6 ml-auto mr-auto bg-light" align="center">
         <h1>Login</h1>
             {% include 'accounts/snippets/login-form.html'%}
-        <p>need to <a href="{% url 'account:register' %}">register</a> ?</p>
+        <p><a href="{% url 'password:password_reset'%}">forgot password</a> | <a href="{% url 'account:register' %}">register</a></p>
         </div>
     </div>
 {% endblock %}

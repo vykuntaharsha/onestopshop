@@ -7,8 +7,8 @@ from django.conf import settings
 # Create your views here.
 
 
-STRIPE_API_KEY = getattr(settings, 'STRIPE_API_KEY', 'sk_test_kEepAt1GDvVRsnwHZkKQNs1a')
-STRIPE_PUB_KEY = getattr(settings, 'STRIPE_PUB_KEY', 'pk_test_vkJRqUc0sr2Xsg0v12iMKtup')
+STRIPE_API_KEY = getattr(settings, 'STRIPE_API_KEY', '')
+STRIPE_PUB_KEY = getattr(settings, 'STRIPE_PUB_KEY', '')
 
 stripe.api_key = STRIPE_API_KEY
 

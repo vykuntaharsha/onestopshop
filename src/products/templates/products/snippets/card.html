@@ -1,22 +1,19 @@
-<div class="row">
-    <div class="col-xs-12" style="padding: 5%">
-        <div class="image-shell" align="center">
-            <a href="{{ instance.get_absolute_url }}">
-            <img class="img-responsive" style="max-width: 50%" src= "{{ instance.image }}"
-                 onerror="this.src='http://www.brandnmc.com/jbframework/uploads/2017/07/image_not_available.png'">
-            </a>
-        </div>
-    </div>
-    <div class="col-xs-12" style="padding: 5%">
-        <h3 class="header-minimal" >{{ instance.name|truncatechars:50}}</h3>
-        <h4 class="" style="font-size: small">{{ instance.type}}</h4>
-        <p><strong>${{ instance.price}}</strong></p>
-        {% if instance.shipping == 0 %}
-        <p class="text-info"> free shipping</p>
-        {% endif %}
-        <div class="col-12">
-            <a class="btn btn-outline-primary btn-block my-2" href="{{ instance.get_absolute_url }}"><strong>View </strong></a>
-            {% include 'products/snippets/add_to_cart.html' with product=instance cart=cart %}
-        </div>
-    </div>
+<div class="card-image" style="height: 40%">
+    <a class="text-center" href="{{ instance.get_absolute_url }}">
+    <img class="card-img-top" src= "{{ instance.image }}" style="object-fit: contain"
+         onerror="this.src='http://www.brandnmc.com/jbframework/uploads/2017/07/image_not_available.png'">
+    </a>
+</div>
+<div class="card-body p=0" style="height: 50%">
+    <h5 class="header-minimal card-title" >{{ instance.name|truncatechars:50}}</h5>
+    <p class="card-text" style="margin: 0">{{ instance.type}}</p>
+    <p class="card-text" style="margin: 0"><strong>${{ instance.price}}</strong></p>
+    {% if instance.shipping == 0 %}
+    <p class="card-text text-info" style="margin: 0"> free shipping</p>
+    {% endif %}
+
+</div>
+<div class="card-body p-0">
+     <a class="btn btn-outline-primary btn-block my-2" href="{{ instance.get_absolute_url }}"><strong>View </strong></a>
+        {% include 'products/snippets/add_to_cart.html' with product=instance cart=cart %}
 </div>

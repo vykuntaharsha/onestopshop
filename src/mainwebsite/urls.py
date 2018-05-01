@@ -18,19 +18,29 @@ from django.conf.urls.static import static
 
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.views.generic import RedirectView
 
 from .views import home_page, about_page, contact_page
 from billing.views import payment_method_view, payment_method_create_view
 
 from marketing.views import MarketingPreferenceUpdateView, MailChimpWebhookView
 
+from addresses.views import (AddressListView, AddressCreateView,
+                             AddressUpdateView, checkout_address_reuse_view,
+                             checkout_address_create_view)
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', home_page, name='home'),
     url(r'^about/$', about_page, name='about'),
     url(r'^contact/$', contact_page, name='contact'),
     url(r'^account/', include('accounts.urls', namespace='account')),
+    url(r'^accounts/', include('accounts.passwords.urls', namespace='password')),
+    url(r'^address/$', RedirectView.as_view(url='/addresses')),
+    url(r'^addresses/$', AddressListView.as_view(), name='addresses'),
+    url(r'^addresses/create/$', AddressCreateView.as_view(), name='address-create'),
+    url(r'^addresses/(?P<pk>\d+)/$', AddressUpdateView.as_view(), name='address-update'),
     url(r'^products/', include("products.urls", namespace='products')),
+    url(r'^orders/', include("orders.urls", namespace='orders')),
     url(r'^search/', include("search.urls", namespace='search')),
     url(r'^settings/email/$', MarketingPreferenceUpdateView.as_view(), name='marketing-pref'),
     url(r'^webhook/mailchimp/$', MailChimpWebhookView.as_view(), name='webhook-mailchimp'),

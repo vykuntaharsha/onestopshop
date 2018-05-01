@@ -6,19 +6,12 @@
             {% if address_type %}
             <input type='hidden' name='address_type' value='{{ address_type }}' />
             {% endif %}
-
-
             {% for address in address_qs %}
             <div class="card p-3 bg-light" style="border-radius: 0; margin-bottom: 5px" >
                 <label for='address-{{ address.id }}'>
                     <input id='address-{{ address.id }}' type='radio' name='shipping_address' value='{{ address.id }}' />
                         <br/>
-                        <strong>{{ address.address_line1 }}<br/></strong>
-                        {% if address.address_line2 %}
-                        <small>{{ address.address_line2 }}<br/></small>
-                        {% endif %}
-                        <small>{{ address.city }}, {{ address.state }} <br/></small>
-                        <small>{{ address.country }}, {{ address.zipcode }}</small>
+                        {{ address.get_short_address }}
                 </label>
             </div>
             {% endfor %}

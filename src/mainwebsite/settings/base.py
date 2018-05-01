@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'csvimport.app.CSVImportConf',
+    'storages',
     'products',
     'categories',
     'search',
@@ -52,6 +52,9 @@ INSTALLED_APPS = [
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
+LOGIN_URL = 'account/login/'
+LOGIN_URL_REDIRECT = '/'
+LOGOUT_URL = 'account/logout/'
 
 FORCE_SESSION_TO_ONE = False
 FORCE_INACTIVE_USER_END_SESSION = False
@@ -63,6 +66,18 @@ MAILCHIMP_EMAIL_LIST_ID = "255a84d7e0"
 STRIPE_PUB_KEY = 'pk_test_vkJRqUc0sr2Xsg0v12iMKtup'
 STRIPE_API_KEY = 'sk_test_kEepAt1GDvVRsnwHZkKQNs1a'
 
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'bobbyvykunta@gmail.com'
+EMAIL_HOST_PASSWORD = 'yourpassword'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'OneStopShop <bobbyvykunta@gmail.com>'
+
+MANAGERS = [
+    ('Harsha Vykunta', 'bobbyvykunta@gmail.com')
+]
+
+ADMINS = MANAGERS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
