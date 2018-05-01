@@ -43,4 +43,4 @@ python3 mange.py runserver
 * Jquery
 
 ### License
-This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/vykuntaharsha/onestopshop/blob/master/LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/vykuntaharsha/onestopshop/blob/master/LICENSE) file for details.
