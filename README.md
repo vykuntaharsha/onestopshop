@@ -19,7 +19,7 @@ Install the following
 Download/clone the repository. Recommended to use a virtual environment. Open terminal and run these commands to start the server.  
 ```python
 cd your-local-repository-path
-python3 -m venv Restaurants
+python3 -m venv onestopshop
 cd project-directory
 source bin/activate
 cd src
