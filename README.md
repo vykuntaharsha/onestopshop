@@ -27,7 +27,7 @@ pip install -r requirements.txt
 ```  
 Run the following after setting up and every time you want to start server
 ```
-python3 mange.py runserver
+python3 manage.py runserver
 ```
 ### Built With
 
